@@ -1,5 +1,3 @@
-import colors from 'vuetify/es5/util/colors'
-
 export default {
   /*
   ** Nuxt rendering mode
@@ -31,12 +29,14 @@ export default {
   ** Global CSS
   */
   css: [
+    'element-ui/lib/theme-chalk/index.css'
   ],
   /*
   ** Plugins to load before mounting the App
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
+    '~plugins/element-ui'
   ],
   /*
   ** Auto import components
@@ -47,30 +47,31 @@ export default {
   ** Nuxt.js dev-modules
   */
   buildModules: [
-    '@nuxtjs/vuetify',
   ],
   /*
   ** Nuxt.js modules
   */
   modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/auth'
   ],
-  /*
-  ** vuetify module configuration
-  ** https://github.com/nuxt-community/vuetify-module
-  */
-  vuetify: {
-    customVariables: ['~/assets/variables.scss'],
-    theme: {
-      dark: true,
-      themes: {
-        dark: {
-          primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
-          info: colors.teal.lighten1,
-          warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
-          success: colors.green.accent3
+
+  axios: {
+    baseURL: 'http:localhost:3000'
+  },
+  auth: {
+    redirect: {
+      login: '/login',
+      logout: '/login',
+      callback: false,
+      home: '/dashboard'
+    },
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: '/auth/sign_in', methods: 'post', propertyName: false },
+          logout: false,
+          user: false
         }
       }
     }
@@ -80,5 +81,6 @@ export default {
   ** See https://nuxtjs.org/api/configuration-build/
   */
   build: {
+    vendor: ['element-ui']
   }
 }
